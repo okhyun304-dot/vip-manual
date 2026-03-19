@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIP 요양원 직원용 실무 매뉴얼</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; background: #f0f4f8; color: #1a202c; }
+
+  /* 헤더 */
+  .header {
+    background: #1e3a5f;
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .header h1 { font-size: 16px; font-weight: 700; }
+  .header .subtitle { font-size: 11px; opacity: 0.75; margin-top: 2px; }
+  .menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  /* 레이아웃 */
+  .layout { display: flex; min-height: calc(100vh - 60px); }
+
+  /* 사이드바 */
+  .sidebar {
+    width: 240px;
+    background: #1e3a5f;
+    flex-shrink: 0;
+    overflow-y: auto;
+    position: sticky;
+    top: 60px;
+    height: calc(100vh - 60px);
+  }
+  .sidebar-title {
+    padding: 14px 16px 8px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.8);
+    padding: 11px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+    line-height: 1.4;
+    font-family: inherit;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.1); color: white; }
+  .nav-item.active {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border-left-color: #63b3ed;
+    font-weight: 700;
+  }
+  .nav-num {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 11px;
+    margin-right: 6px;
+    min-width: 22px;
+    text-align: center;
+  }
+  .nav-item.active .nav-num { background: #63b3ed; color: #1e3a5f; }
+
+  /* 콘텐츠 */
+  .content { flex: 1; padding: 24px; overflow-y: auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* 섹션 헤더 */
+  .section-header {
+    background: white;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    border-left: 5px solid #2b6cb0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .section-header h2 { font-size: 20px; color: #1e3a5f; margin-bottom: 6px; }
+  .section-header .purpose {
+    background: #ebf4ff;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #2c5282;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+
+  /* 카드 */
+  .card {
+    background: white;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .card h3 {
+    font-size: 15px;
+    color: #2b6cb0;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #bee3f8;
+  }
+  .card h4 { font-size: 13px; color: #2d3748; margin: 12px 0 8px; }
+
+  /* 핵심 원칙 */
+  .principles { list-style: none; }
+  .principles li {
+    padding: 7px 0 7px 20px;
+    position: relative;
+    font-size: 13px;
+    line-height: 1.6;
+    border-bottom: 1px solid #f7fafc;
+    color: #4a5568;
+  }
+  .principles li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #48bb78;
+    font-weight: bold;
+  }
+
+  /* STEP 절차 */
+  .steps { display: flex; flex-direction: column; gap: 8px; }
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .step-num {
+    background: #2b6cb0;
+    color: white;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-content { flex: 1; }
+  .step-title { font-size: 13px; font-weight: 700; color: #1e3a5f; margin-bottom: 4px; }
+  .step-desc { font-size: 12px; color: #4a5568; line-height: 1.6; }
+  .step-arrow { text-align: center; color: #a0aec0; font-size: 18px; }
+
+  /* 표 */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th {
+    background: #2b6cb0;
+    color: white;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; vertical-align: top; line-height: 1.5; }
+  tr:hover td { background: #f7fafc; }
+
+  /* 금지/허용 태그 */
+  .tag-bad { background: #fed7d7; color: #c53030; border-radius: 4px; padding: 1px 6px; font-size: 11px; font-weight: bold; }
+  .tag-good { background: #c6f6d5; color: #276749; border-radius: 4px; padding: 1px 6px; font-size: 11px; font-weight: bold; }
+
+  /* 긴급 연락처 */
+  .contacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .contact-item {
+    background: #ebf4ff;
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 4px solid #3182ce;
+  }
+  .contact-name { font-size: 12px; color: #2c5282; font-weight: 600; margin-bottom: 4px; }
+  .contact-num { font-size: 15px; font-weight: bold; color: #1e3a5f; }
+  .contact-note { font-size: 11px; color: #718096; margin-top: 3px; }
+  .contact-item.emergency { border-left-color: #e53e3e; background: #fff5f5; }
+  .contact-item.emergency .contact-num { color: #c53030; }
+
+  /* 체크리스트 */
+  .checklist-tabs { display: flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap; }
+  .tab-btn {
+    background: #e2e8f0;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    color: #4a5568;
+  }
+  .tab-btn.active { background: #2b6cb0; color: white; }
+  .checklist-content { display: none; }
+  .checklist-content.active { display: block; }
+  .check-group { margin-bottom: 8px; }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .check-item:hover { background: #f7fafc; }
+  .check-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: #2b6cb0;
+    margin-top: 1px;
+  }
+  .check-item label {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #4a5568;
+    cursor: pointer;
+  }
+  .check-item.checked label { text-decoration: line-through; color: #a0aec0; }
+  .check-progress {
+    background: #e2e8f0;
+    border-radius: 20px;
+    height: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .check-progress-bar {
+    background: linear-gradient(90deg, #2b6cb0, #63b3ed);
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+  }
+  .check-progress-text { font-size: 12px; color: #718096; margin-bottom: 6px; text-align: right; }
+  .reset-btn {
+    background: #e2e8f0;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 11px;
+    cursor: pointer;
+    color: #718096;
+    font-family: inherit;
+    margin-top: 8px;
+  }
+  .reset-btn:hover { background: #cbd5e0; }
+
+  /* 섹션별 색상 */
+  .s01 .section-header { border-left-color: #e53e3e; }
+  .s02 .section-header { border-left-color: #dd6b20; }
+  .s03 .section-header { border-left-color: #d69e2e; }
+  .s04 .section-header { border-left-color: #38a169; }
+  .s05 .section-header { border-left-color: #319795; }
+  .s06 .section-header { border-left-color: #3182ce; }
+  .s07 .section-header { border-left-color: #553c9a; }
+  .s08 .section-header { border-left-color: #b83280; }
+  .s09 .section-header { border-left-color: #2c7a7b; }
+  .s10 .section-header { border-left-color: #9b2335; }
+  .s11 .section-header { border-left-color: #2b6cb0; }
+  .s12 .section-header { border-left-color: #6b46c1; }
+  .s13 .section-header { border-left-color: #2f855a; }
+
+  /* 뱃지 */
+  .badge {
+    display: inline-block;
+    background: #bee3f8;
+    color: #2c5282;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+
+  /* 경고 박스 */
+  .alert {
+    background: #fff5f5;
+    border: 1px solid #fed7d7;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 8px 0;
+    font-size: 13px;
+    color: #c53030;
+    line-height: 1.5;
+  }
+  .alert-blue {
+    background: #ebf4ff;
+    border-color: #bee3f8;
+    color: #2c5282;
+  }
+
+  /* 모바일 */
+  @media (max-width: 768px) {
+    .menu-btn { display: block; }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -240px;
+      height: 100vh;
+      z-index: 200;
+      transition: left 0.25s ease;
+    }
+    .sidebar.open { left: 0; }
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 150;
+    }
+    .overlay.show { display: block; }
+    .content { padding: 16px 12px; }
+    .contacts { grid-template-columns: 1fr 1fr; }
+    .section-header h2 { font-size: 17px; }
+  }
+
+  @media (max-width: 480px) {
+    .contacts { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header h1" style="font-size:15px;font-weight:700;">VIP 요양원 직원용 실무 매뉴얼</div>
+    <div class="subtitle">현장 대응 및 안전 관리 표준 지침서</div>
+  </div>
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+</div>
+
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-title">13가지 지침</div>
+    <button class="nav-item active" onclick="showSection('s01', this)"><span class="nav-num">01</span>낙상 예방</button>
+    <button class="nav-item" onclick="showSection('s02', this)"><span class="nav-num">02</span>감염 예방</button>
+    <button class="nav-item" onclick="showSection('s03', this)"><span class="nav-num">03</span>응급상황 대응</button>
+    <button class="nav-item" onclick="showSection('s04', this)"><span class="nav-num">04</span>치매 문제행동 대응</button>
+    <button class="nav-item" onclick="showSection('s05', this)"><span class="nav-num">05</span>욕창 예방</button>
+    <button class="nav-item" onclick="showSection('s06', this)"><span class="nav-num">06</span>성폭력 예방 및 대응</button>
+    <button class="nav-item" onclick="showSection('s07', this)"><span class="nav-num">07</span>노인 인권 보호</button>
+    <button class="nav-item" onclick="showSection('s08', this)"><span class="nav-num">08</span>개인정보 보호</button>
+    <button class="nav-item" onclick="showSection('s09', this)"><span class="nav-num">09</span>야간 근무</button>
+    <button class="nav-item" onclick="showSection('s10', this)"><span class="nav-num">10</span>인권 침해 대응</button>
+    <button class="nav-item" onclick="showSection('s11', this)"><span class="nav-num">11</span>고충 처리</button>
+    <button class="nav-item" onclick="showSection('s12', this)"><span class="nav-num">12</span>종사자 윤리</button>
+    <button class="nav-item" onclick="showSection('s13', this)"><span class="nav-num">13</span>근골격계 질환 예방</button>
+  </nav>
+
+  <main class="content">
+
+    <!-- 01 낙상 예방 -->
+    <div class="section s01 active" id="s01">
+      <div class="section-header">
+        <h2>01. 낙상 예방 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 낙상 사고를 예방하기 위해 환경을 개선하고, 낙상 발생 시 신속하게 대응하여 어르신의 안전을 지킵니다.</div>
+      </div>
+
+      <div class="card">
+        <h3>핵심 원칙</h3>
+        <ul class="principles">
+          <li>낙상은 우연이 아니라 환경의 결함으로 발생 — 예측 가능하고 예방 가능</li>
+          <li>치매·파킨슨병·시력 저하 등 위험 요인을 사전 평가하여 관리</li>
+          <li>수시 라운딩으로 어르신 건강 상태·행동 변화 조기 발견</li>
+          <li>시설 환경 표준화로 직원 주의력에만 의존하지 않음</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>환경 관리 — 넘어질 수 없는 환경 만들기</h3>
+        <ul class="principles">
+          <li><strong>조명 관리:</strong> 눈부시지 않으면서 선명한 조명 유지 (그림자·사각지대 최소화)</li>
+          <li><strong>장애물 제거:</strong> 복도 등 이동 경로의 전선·카펫 즉시 제거</li>
+          <li><strong>바닥 안전:</strong> 물기 발견 즉시 닦기 / 욕실 미끄럼 방지 매트 필수</li>
+          <li><strong>침대 관리:</strong> 바퀴 고정 + 안전 난간 올리기 + 침대 높이 낮게</li>
+          <li><strong>호출벨:</strong> 어르신 손에 가장 가까운 위치에 개별 조정</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>낙상 발생 시 응급 대처</h3>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title">안정과 확인</div>
+              <div class="step-desc">무리하게 일으키지 않고 안정 / 통증 부위·상태 먼저 확인</div>
+            </div>
+          </div>
+          <div class="step-arrow">↓</div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title">현장 대기</div>
+              <div class="step-desc">추가 위험 없으면 의료진 올 때까지 낙상 지점에서 이동 금지 / 상태 계속 관찰</div>
+            </div>
+          </div>
+          <div class="step-arrow">↓</div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title">투명한 보고</div>
+              <div class="step-desc">즉시 시설장 보고 / 보호자에게 사고 경위 투명하게 알림</div>
+            </div>
+          </div>
+          <div class="step-arrow">↓</div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">의료 조치</div>
+              <div class="step-desc">외상 없어도 협력 의료기관 진료 / 발생 경위·조치 내용 기록</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>긴급 연락처</h3>
+        <div class="contacts">
+          <div class="contact-item">
+            <div class="contact-name">시설장 최광진</div>
+            <div class="contact-num">☎ ___________</div>
+            <div class="contact-note">1차 보고</div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-name">간호사</div>
+            <div class="contact-num">☎ ___________</div>
+            <div class="contact-note">의료 조치 필요 시</div>
+          </div>
+          <div class="contact-item emergency">
+            <div class="contact-name">119 구급대</div>
+            <div class="contact-num">☎ 119</div>
+            <div class="contact-note">응급 이송</div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-name">협력 의료기관</div>
+            <div class="contact-num">☎ ___________</div>
+            <div class="contact-note">진료 연계</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div id="cl-s01">
+          <div class="checklist-tabs">
+            <button class="tab-btn active" onclick="switchTab('s01','daily',this)">매일</button>
+            <button class="tab-btn" onclick="switchTab('s01','weekly',this)">주간</button>
+            <button class="tab-btn" onclick="switchTab('s01','monthly',this)">월간</button>
+          </div>
+          <div class="check-progress-text" id="prog-text-s01">0 / 5 완료</div>
+          <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s01" style="width:0%"></div></div>
+          <div class="checklist-content active" id="s01-daily">
+            <div class="check-item" onclick="toggleCheck(this,'s01')"><input type="checkbox"><label>수시 라운딩으로 어르신 당일 컨디션(어지럼증·보행 상태) 확인</label></div>
+            <div class="check-item" onclick="toggleCheck(this,'s01')"><input type="checkbox"><label>복도 및 이동 경로 장애물 제거 확인</label></div>
+            <div class="check-item" onclick="toggleCheck(this,'s01')"><input type="checkbox"><label>바닥 물기 여부 점검</label></div>
+            <div class="check-item" onclick="toggleCheck(this,'s01')"><input type="checkbox"><label>어르신 침대 바퀴 고정 및 난간 상태 확인</label></div>
+            <div class="check-item" onclick="toggleCheck(this,'s01')"><input type="checkbox"><label>호출벨 작동 여부 테스트</label></div>
+          </div>
+          <div class="checklist-content" id="s01-weekly">
+            <div class="check-item" onclick="toggleCheck(this,'s01')"><input type="checkbox"><label>낙상 위험 어르신 명단 갱신</label></div>
+            <div class="check-item" onclick="toggleCheck(this,'s01')"><input type="checkbox"><label>욕실 미끄럼 방지 매트 상태 점검</label></div>
+          </div>
+          <div class="checklist-content" id="s01-monthly">
+            <div class="check-item" onclick="toggleCheck(this,'s01')"><input type="checkbox"><label>전 직원 낙상 예방 교육 실시</label></div>
+            <div class="check-item" onclick="toggleCheck(this,'s01')"><input type="checkbox"><label>조명 밝기 적정 여부 점검</label></div>
+          </div>
+          <button class="reset-btn" onclick="resetChecks('s01')">초기화</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 감염 예방 -->
+    <div class="section s02" id="s02">
+      <div class="section-header">
+        <h2>02. 감염 예방 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 세균과 바이러스 침입을 사전에 차단하고, 감염 발생 시 신속히 조치하여 시설 전체의 안전을 유지합니다.</div>
+      </div>
+      <div class="card">
+        <h3>3중 방역 시스템</h3>
+        <h4>① 상시 손 위생 (접촉 차단)</h4>
+        <ul class="principles">
+          <li>모든 어르신 방 관물대에 손소독제 비치</li>
+          <li>직원은 어르신 모시기 전후 즉시 손 소독</li>
+          <li>식사 전 어르신 손 씻기 도움 (식중독 예방)</li>
+          <li>오염물질 접촉 시 비누 이용 6단계 손 씻기</li>
+        </ul>
+        <h4>② 철저한 마스크 착용 (비말 차단)</h4>
+        <ul class="principles">
+          <li>시설 내 모든 직원·방문자 마스크(보건용) 착용 의무화</li>
+          <li>턱스크·코스크 엄격히 금지</li>
+          <li>오염·훼손 시 즉각 교체</li>
+        </ul>
+        <h4>③ 3단계 입체 소독</h4>
+        <ul class="principles">
+          <li><strong>분기별:</strong> 전문 업체 정밀 소독</li>
+          <li><strong>주간 1회:</strong> 손잡이·스위치·문고리 집중 소독</li>
+          <li><strong>매일 2회 이상:</strong> 상시 환기</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>감염 발생 시 5단계 대응</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">증상 발견</div><div class="step-desc">발열·피부 붉어짐·호흡곤란 등 이상 증상 즉시 포착</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">신속 보고</div><div class="step-desc">발견 즉시 시설장·간호사 보고 → 대응 체계 가동</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">보호자 연락</div><div class="step-desc">상황·조치 계획을 보호자에게 투명하게 알림</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">병원 진료</div><div class="step-desc">필요 시 협력 의료기관 진료 의뢰 및 이송</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">격리 및 소독</div><div class="step-desc">전파 경로 차단 위해 필요 구역 격리 및 집중 소독</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>긴급 연락처</h3>
+        <div class="contacts">
+          <div class="contact-item"><div class="contact-name">시설장 최광진</div><div class="contact-num">☎ ___________</div><div class="contact-note">1차 보고</div></div>
+          <div class="contact-item"><div class="contact-name">간호사</div><div class="contact-num">☎ ___________</div><div class="contact-note">의료 판단 필요 시</div></div>
+          <div class="contact-item"><div class="contact-name">보건소</div><div class="contact-num">☎ ___________</div><div class="contact-note">감염병 신고</div></div>
+          <div class="contact-item"><div class="contact-name">협력 의료기관</div><div class="contact-num">☎ ___________</div><div class="contact-note">진료 연계</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div class="checklist-tabs">
+          <button class="tab-btn active" onclick="switchTab('s02','daily',this)">매일</button>
+          <button class="tab-btn" onclick="switchTab('s02','weekly',this)">주간</button>
+          <button class="tab-btn" onclick="switchTab('s02','quarterly',this)">분기</button>
+        </div>
+        <div class="check-progress-text" id="prog-text-s02">0 / 4 완료</div>
+        <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s02" style="width:0%"></div></div>
+        <div class="checklist-content active" id="s02-daily">
+          <div class="check-item" onclick="toggleCheck(this,'s02')"><input type="checkbox"><label>어르신 발열·기침 증상 확인</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s02')"><input type="checkbox"><label>직원·방문객 올바른 마스크 착용 여부 점검</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s02')"><input type="checkbox"><label>손소독제 비치 상태 점검</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s02')"><input type="checkbox"><label>환기 2회 이상 실시 (아침, 저녁)</label></div>
+        </div>
+        <div class="checklist-content" id="s02-weekly">
+          <div class="check-item" onclick="toggleCheck(this,'s02')"><input type="checkbox"><label>집중 소독 실시 (손잡이·스위치·문고리)</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s02')"><input type="checkbox"><label>직원 건강 상태 확인</label></div>
+        </div>
+        <div class="checklist-content" id="s02-quarterly">
+          <div class="check-item" onclick="toggleCheck(this,'s02')"><input type="checkbox"><label>전문 업체 정밀 소독 실시</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s02')"><input type="checkbox"><label>독감 예방접종 계획 수립</label></div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks('s02')">초기화</button>
+      </div>
+    </div>
+
+    <!-- 03 응급상황 -->
+    <div class="section s03" id="s03">
+      <div class="section-header">
+        <h2>03. 응급상황 대응 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 응급상황 발생 시 골든타임을 놓치지 않고 신속하게 대응하여 어르신의 생명을 보호합니다.</div>
+      </div>
+      <div class="card">
+        <h3>심정지 의심 시 응급처치</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">의식 확인 (10초 이내)</div><div class="step-desc">어깨를 가볍게 두드리며 "어르신, 괜찮으세요?" / 가슴 움직임으로 호흡 확인</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">119 신고 (즉시)</div><div class="step-desc">의식 없고 호흡 비정상적이면 즉시 119 신고</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">가슴 압박 (구급대 도착까지)</div><div class="step-desc">흉골 아래쪽 절반 / 분당 100~120회 / <strong style="color:#c53030">명치 끝부분 절대 누르지 않음</strong></div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>주요 상황별 대응</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>상황</th><th>대응 지침</th></tr>
+            <tr><td><strong>경련(발작)</strong></td><td>주변 위험물 제거 / 고개를 옆으로 돌려 기도 확보 / 입 안에 수건 등 절대 넣지 않음</td></tr>
+            <tr><td><strong>화상</strong></td><td>찬물에 15~30분 식히기 / 민간요법 절대 금지 / 깨끗한 물수건으로 감싸기</td></tr>
+            <tr><td><strong>뇌졸중</strong></td><td>한쪽 마비·안면 비대칭·어눌한 발음·어지럼증 → 즉시 119 / 3~6시간 내 전문 병원</td></tr>
+            <tr><td><strong>질식</strong></td><td>배꼽과 명치 사이 주먹으로 감싸기 → 위쪽으로 빠르게 밀어 올리기 (하임리히법)</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>긴급 연락처</h3>
+        <div class="contacts">
+          <div class="contact-item emergency"><div class="contact-name">119 구급대</div><div class="contact-num">☎ 119</div><div class="contact-note">응급 상황 1순위</div></div>
+          <div class="contact-item"><div class="contact-name">시설장 최광진</div><div class="contact-num">☎ ___________</div><div class="contact-note">즉시 보고</div></div>
+          <div class="contact-item"><div class="contact-name">간호사</div><div class="contact-num">☎ ___________</div><div class="contact-note">응급 처치 지원</div></div>
+          <div class="contact-item"><div class="contact-name">협력 병원 응급실</div><div class="contact-num">☎ ___________</div><div class="contact-note">이송 병원</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div class="checklist-tabs">
+          <button class="tab-btn active" onclick="switchTab('s03','daily',this)">매일</button>
+          <button class="tab-btn" onclick="switchTab('s03','weekly',this)">주간</button>
+          <button class="tab-btn" onclick="switchTab('s03','monthly',this)">월간</button>
+        </div>
+        <div class="check-progress-text" id="prog-text-s03">0 / 2 완료</div>
+        <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s03" style="width:0%"></div></div>
+        <div class="checklist-content active" id="s03-daily">
+          <div class="check-item" onclick="toggleCheck(this,'s03')"><input type="checkbox"><label>어르신 인적사항 파일 최신 상태 유지</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s03')"><input type="checkbox"><label>응급키트 위치 및 내용물 확인</label></div>
+        </div>
+        <div class="checklist-content" id="s03-weekly">
+          <div class="check-item" onclick="toggleCheck(this,'s03')"><input type="checkbox"><label>직원 심폐소생술 교육 이수 확인</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s03')"><input type="checkbox"><label>119 비상 연락망 점검</label></div>
+        </div>
+        <div class="checklist-content" id="s03-monthly">
+          <div class="check-item" onclick="toggleCheck(this,'s03')"><input type="checkbox"><label>응급상황 시뮬레이션 훈련 실시</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s03')"><input type="checkbox"><label>응급키트 내용물 보충</label></div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks('s03')">초기화</button>
+      </div>
+    </div>
+
+    <!-- 04 치매 -->
+    <div class="section s04" id="s04">
+      <div class="section-header">
+        <h2>04. 치매 문제행동 대응 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 치매 어르신의 문제행동을 질병 증상으로 이해하고, 감정이 아닌 기준으로 대응하여 어르신의 불안을 낮춥니다.</div>
+      </div>
+      <div class="card">
+        <h3>상황별 안심 대응 방법</h3>
+        <h4>① 물건을 잃어버렸다고 하실 때 (망상)</h4>
+        <p style="font-size:13px;margin:6px 0;"><span class="tag-bad">금지</span> "없어요", "잘못 보셨어요" (사실 따지기)</p>
+        <p style="font-size:13px;margin:6px 0;"><span class="tag-good">대응</span> "같이 찾아보겠습니다" (공감하며 불안 낮추기) / 자주 숨기는 장소 파악</p>
+        <h4>② 화를 내거나 위협적 행동 (공격성)</h4>
+        <p style="font-size:13px;margin:6px 0;"><span class="tag-bad">금지</span> 맞받아치기, 훈계, 감정적 대응</p>
+        <p style="font-size:13px;margin:6px 0;"><span class="tag-good">대응</span> 즉시 거리 확보 / "괜찮아요, 안전해요" (낮고 짧게)</p>
+        <h4>③ 집에 가겠다고 하실 때 (귀가 요구)</h4>
+        <p style="font-size:13px;margin:6px 0;"><span class="tag-bad">금지</span> "여기가 집이에요", "못 가요" (논리 설득)</p>
+        <p style="font-size:13px;margin:6px 0;"><span class="tag-good">대응</span> "차 시간 확인해 드릴게요" / 단순 활동으로 5~10분 내 관심 전환</p>
+        <h4>④ 특정 공간 서성임 (배회)</h4>
+        <p style="font-size:13px;margin:6px 0;"><span class="badge">예방</span> 저녁 17~19시 조명 밝게 / 손 쓰는 활동 운영</p>
+        <p style="font-size:13px;margin:6px 0;"><span class="badge">조치</span> 2인 이상이 자연스럽게 다른 공간으로 유도</p>
+      </div>
+      <div class="card">
+        <h3>긴급 연락처</h3>
+        <div class="contacts">
+          <div class="contact-item"><div class="contact-name">시설장 최광진</div><div class="contact-num">☎ ___________</div><div class="contact-note">위급 상황 보고</div></div>
+          <div class="contact-item"><div class="contact-name">간호사</div><div class="contact-num">☎ ___________</div><div class="contact-note">의료 판단 필요 시</div></div>
+          <div class="contact-item"><div class="contact-name">협력 정신건강의학과</div><div class="contact-num">☎ ___________</div><div class="contact-note">증상 악화 시</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div class="checklist-tabs">
+          <button class="tab-btn active" onclick="switchTab('s04','daily',this)">매일</button>
+          <button class="tab-btn" onclick="switchTab('s04','weekly',this)">주간</button>
+          <button class="tab-btn" onclick="switchTab('s04','monthly',this)">월간</button>
+        </div>
+        <div class="check-progress-text" id="prog-text-s04">0 / 2 완료</div>
+        <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s04" style="width:0%"></div></div>
+        <div class="checklist-content active" id="s04-daily">
+          <div class="check-item" onclick="toggleCheck(this,'s04')"><input type="checkbox"><label>치매 어르신 행동 관찰 및 기록</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s04')"><input type="checkbox"><label>저녁 시간(17~19시) 조명 밝기 확인</label></div>
+        </div>
+        <div class="checklist-content" id="s04-weekly">
+          <div class="check-item" onclick="toggleCheck(this,'s04')"><input type="checkbox"><label>기록 누적 데이터로 패턴 분석</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s04')"><input type="checkbox"><label>직원 간 대응 방법 공유</label></div>
+        </div>
+        <div class="checklist-content" id="s04-monthly">
+          <div class="check-item" onclick="toggleCheck(this,'s04')"><input type="checkbox"><label>보호자에게 어르신 상태 공유</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s04')"><input type="checkbox"><label>치매 대응 교육 실시</label></div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks('s04')">초기화</button>
+      </div>
+    </div>
+
+    <!-- 05 욕창 -->
+    <div class="section s05" id="s05">
+      <div class="section-header">
+        <h2>05. 욕창 예방 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 욕창 발생을 사전에 예방하고, 발생 시 신속하게 치료하여 어르신의 피부 통합성을 지킵니다.</div>
+      </div>
+      <div class="card">
+        <h3>2시간의 약속 — 예방 활동</h3>
+        <ul class="principles">
+          <li><strong>침대:</strong> 최소 2시간 간격으로 자세 바꾸기 / 체위 변경 시각 기록</li>
+          <li><strong>의자(휠체어):</strong> 1시간 간격으로 더 자주 변경</li>
+          <li><strong>환경 정비:</strong> 젖은 시트 즉시 교체 / 주름 팽팽하게 펴주기</li>
+          <li><strong>청결 유지:</strong> 피부 건조·청결 유지 / 씻은 후 완전히 말리기</li>
+          <li><strong>보조 기구:</strong> 에어매트·베개로 뼈 맞닿는 부위 보호</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>욕창 발견 시 대응</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">1단계 (분홍색 피부)</div><div class="step-desc">미지근한 물수건으로 찜질 / 건조 후 집중 관찰·기록</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">2단계 이상 (물집·상처)</div><div class="step-desc">상처 소독 / 습윤 드레싱 적용 / 피부 보호 연고 사용</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">의료 연계</div><div class="step-desc">계약 의사 방문 시 정기 점검 / 3~4단계 시 즉시 전문 의료기관 이송</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">기록 및 보고</div><div class="step-desc">발생 부위·단계·치료 내용 상세 기록 / 보호자 투명하게 알림</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>긴급 연락처</h3>
+        <div class="contacts">
+          <div class="contact-item"><div class="contact-name">시설장 최광진</div><div class="contact-num">☎ ___________</div><div class="contact-note">발견 즉시 보고</div></div>
+          <div class="contact-item"><div class="contact-name">간호사</div><div class="contact-num">☎ ___________</div><div class="contact-note">치료 지원</div></div>
+          <div class="contact-item"><div class="contact-name">계약 의사</div><div class="contact-num">☎ ___________</div><div class="contact-note">정기 점검</div></div>
+          <div class="contact-item emergency"><div class="contact-name">협력 병원</div><div class="contact-num">☎ ___________</div><div class="contact-note">3~4단계 즉시 이송</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div class="checklist-tabs">
+          <button class="tab-btn active" onclick="switchTab('s05','daily',this)">매일</button>
+          <button class="tab-btn" onclick="switchTab('s05','weekly',this)">주간</button>
+          <button class="tab-btn" onclick="switchTab('s05','monthly',this)">월간</button>
+        </div>
+        <div class="check-progress-text" id="prog-text-s05">0 / 3 완료</div>
+        <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s05" style="width:0%"></div></div>
+        <div class="checklist-content active" id="s05-daily">
+          <div class="check-item" onclick="toggleCheck(this,'s05')"><input type="checkbox"><label>2시간 간격 체위 변경 실시 및 기록</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s05')"><input type="checkbox"><label>피부 상태 관찰 (뼈 돌출 부위 집중)</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s05')"><input type="checkbox"><label>시트 젖음·주름 여부 확인</label></div>
+        </div>
+        <div class="checklist-content" id="s05-weekly">
+          <div class="check-item" onclick="toggleCheck(this,'s05')"><input type="checkbox"><label>욕창 위험 어르신 명단 갱신</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s05')"><input type="checkbox"><label>에어매트·베개 상태 점검</label></div>
+        </div>
+        <div class="checklist-content" id="s05-monthly">
+          <div class="check-item" onclick="toggleCheck(this,'s05')"><input type="checkbox"><label>전 직원 욕창 예방 교육 실시</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s05')"><input type="checkbox"><label>계약 의사 정기 점검 시 욕창 부위 확인</label></div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks('s05')">초기화</button>
+      </div>
+    </div>
+
+    <!-- 06 성폭력 -->
+    <div class="section s06" id="s06">
+      <div class="section-header">
+        <h2>06. 성폭력 예방 및 대응 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 어르신의 성적 자기결정권을 보호하고, 성폭력 발생 시 즉각 대응하여 2차 피해를 방지합니다.</div>
+      </div>
+      <div class="card">
+        <h3>예방 — 평상시 행동 수칙</h3>
+        <ul class="principles">
+          <li>모든 어르신께 상호 존칭어 사용 (반말 금지)</li>
+          <li>기저귀 케어·목욕·옷 갈아입히기 전 "지금 ~해드려도 될까요?" 양해 구하기</li>
+          <li>불쾌한 표정·고개를 돌리시면 즉시 행동 중단</li>
+          <li>침묵을 동의로 해석하지 않기 (명확한 "네" 확인)</li>
+          <li>개인 공간 출입 시 노크 후 대답 듣고 입장</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>상황 발생 시 대응</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">즉각 중단 (목격 즉시)</div><div class="step-desc">"그만하세요" 명확하게 / 피해 어르신 안전한 공간으로 분리</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">피해자 안심 (5분 이내)</div><div class="step-desc">"괜찮으세요? 안전합니다" 반복 / 다른 어르신들과 격리</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">시설장 즉시 보고 (10분 이내)</div><div class="step-desc">전화 우선 → 간호사 → 당직 책임자 순 / 시간·장소·가해자·피해자·목격 상황 보고</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">기록 및 전문기관 연계</div><div class="step-desc">상황 일지 작성 / 시설장 지시에 따라 여성긴급전화 1366 또는 경찰 신고</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>긴급 연락처</h3>
+        <div class="contacts">
+          <div class="contact-item"><div class="contact-name">시설장 최광진</div><div class="contact-num">☎ ___________</div><div class="contact-note">1차 보고</div></div>
+          <div class="contact-item"><div class="contact-name">간호사</div><div class="contact-num">☎ ___________</div><div class="contact-note">시설장 부재 시</div></div>
+          <div class="contact-item emergency"><div class="contact-name">여성긴급전화</div><div class="contact-num">☎ 1366</div><div class="contact-note">전문 상담·법적 지원</div></div>
+          <div class="contact-item emergency"><div class="contact-name">노인보호전문기관</div><div class="contact-num">☎ 1577-1389</div><div class="contact-note">학대 신고</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div class="checklist-tabs">
+          <button class="tab-btn active" onclick="switchTab('s06','daily',this)">매일</button>
+          <button class="tab-btn" onclick="switchTab('s06','weekly',this)">주간</button>
+          <button class="tab-btn" onclick="switchTab('s06','monthly',this)">월간</button>
+        </div>
+        <div class="check-progress-text" id="prog-text-s06">0 / 3 완료</div>
+        <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s06" style="width:0%"></div></div>
+        <div class="checklist-content active" id="s06-daily">
+          <div class="check-item" onclick="toggleCheck(this,'s06')"><input type="checkbox"><label>어르신 간 과도한 신체 접촉 관찰</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s06')"><input type="checkbox"><label>특정 어르신이 다른 방에 자주 출입하는지 확인</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s06')"><input type="checkbox"><label>어르신의 불안·위축된 표정 변화 관찰</label></div>
+        </div>
+        <div class="checklist-content" id="s06-weekly">
+          <div class="check-item" onclick="toggleCheck(this,'s06')"><input type="checkbox"><label>직원 전원 성폭력 예방 교육 이수 확인 (분기 1회)</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s06')"><input type="checkbox"><label>CCTV 공용 공간 정상 작동 점검</label></div>
+        </div>
+        <div class="checklist-content" id="s06-monthly">
+          <div class="check-item" onclick="toggleCheck(this,'s06')"><input type="checkbox"><label>개인 공간 프라이버시 보호 상태 점검 (커튼·가림막)</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s06')"><input type="checkbox"><label>성폭력 예방 포스터 게시 상태 확인</label></div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks('s06')">초기화</button>
+      </div>
+    </div>
+
+    <!-- 07 노인 인권 -->
+    <div class="section s07" id="s07">
+      <div class="section-header">
+        <h2>07. 노인 인권 보호 및 학대 예방 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 어르신을 환자가 아닌 '어른'으로 모시며, 모든 형태의 학대를 예방하고 인권을 보호합니다.</div>
+      </div>
+      <div class="card">
+        <h3>6대 학대 — 절대 금지</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>#</th><th>유형</th><th>구체적 행위</th></tr>
+            <tr><td>1</td><td><strong>신체적</strong></td><td>때리기·꼬집기·흔들기·화상 입히기·물건 던지기</td></tr>
+            <tr><td>2</td><td><strong>정서적</strong></td><td>욕설·협박·무시·"죽어버려" 등 모욕적 언사</td></tr>
+            <tr><td>3</td><td><strong>성적</strong></td><td>강제 신체 접촉·음란물 노출·성적 농담</td></tr>
+            <tr><td>4</td><td><strong>경제적</strong></td><td>용돈 무단 사용·재산 빼돌리기·연금 착취</td></tr>
+            <tr><td>5</td><td><strong>방임</strong></td><td>식사·약·위생·병원 방치</td></tr>
+            <tr><td>6</td><td><strong>유기</strong></td><td>집 밖에 내버려두기·연락 두절</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>학대 의심 시 대응</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">학대 인지 (즉시)</div><div class="step-desc">멍·상처·화상 발견 / 특정 직원 보고 과도하게 위축 / 체중 급감·위생 악화</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">즉시 보호 조치 (10분 이내)</div><div class="step-desc">안전한 장소로 이동 / 가해 의심자와 격리 / 상처 사진 촬영 (증거 확보)</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">시설장 보고 + 전문기관 신고 (1시간 이내)</div><div class="step-desc">시설장에게 구두+문서 보고 / 노인보호전문기관 ☎ 1577-1389 신고 (법적 의무) / 긴급 시 경찰 112</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">기록 및 후속 조치</div><div class="step-desc">학대 의심 일지 작성 / 가족 설명 / 재발 방지 교육</div></div></div>
+        </div>
+        <div class="alert" style="margin-top:12px;">⚠️ 학대 의심 시 <strong>24시간 이내</strong> 노인보호전문기관 신고 의무 — 미신고 시 과태료 부과</div>
+      </div>
+      <div class="card">
+        <h3>긴급 연락처</h3>
+        <div class="contacts">
+          <div class="contact-item"><div class="contact-name">시설장 최광진</div><div class="contact-num">☎ ___________</div><div class="contact-note">1차 보고</div></div>
+          <div class="contact-item emergency"><div class="contact-name">노인보호전문기관</div><div class="contact-num">☎ 1577-1389</div><div class="contact-note">학대 신고 의무</div></div>
+          <div class="contact-item emergency"><div class="contact-name">경찰</div><div class="contact-num">☎ 112</div><div class="contact-note">긴급 상황</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div class="checklist-tabs">
+          <button class="tab-btn active" onclick="switchTab('s07','daily',this)">매일</button>
+          <button class="tab-btn" onclick="switchTab('s07','weekly',this)">주간</button>
+          <button class="tab-btn" onclick="switchTab('s07','monthly',this)">월간</button>
+        </div>
+        <div class="check-progress-text" id="prog-text-s07">0 / 4 완료</div>
+        <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s07" style="width:0%"></div></div>
+        <div class="checklist-content active" id="s07-daily">
+          <div class="check-item" onclick="toggleCheck(this,'s07')"><input type="checkbox"><label>어르신 신체 상태 관찰 (멍·상처·화상)</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s07')"><input type="checkbox"><label>식사량·수분 섭취량 확인</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s07')"><input type="checkbox"><label>어르신 표정·감정 상태 체크 (위축·불안·두려움)</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s07')"><input type="checkbox"><label>의복 청결 상태 및 기저귀 교체 주기 준수</label></div>
+        </div>
+        <div class="checklist-content" id="s07-weekly">
+          <div class="check-item" onclick="toggleCheck(this,'s07')"><input type="checkbox"><label>체중 측정 및 기록</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s07')"><input type="checkbox"><label>약 복용 누락 여부 확인</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s07')"><input type="checkbox"><label>어르신과 1:1 대화 ("불편한 점 없으세요?")</label></div>
+        </div>
+        <div class="checklist-content" id="s07-monthly">
+          <div class="check-item" onclick="toggleCheck(this,'s07')"><input type="checkbox"><label>전 직원 인권 교육 이수 확인</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s07')"><input type="checkbox"><label>학대 예방 포스터 게시 상태 점검</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s07')"><input type="checkbox"><label>보호자 면회 시 어르신 상태 함께 확인</label></div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks('s07')">초기화</button>
+      </div>
+    </div>
+
+    <!-- 08 개인정보 -->
+    <div class="section s08" id="s08">
+      <div class="section-header">
+        <h2>08. 개인정보 보호 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 어르신과 가족의 개인정보를 법적 기준에 따라 안전하게 관리하고, 무단 유출을 방지합니다.</div>
+      </div>
+      <div class="card">
+        <h3>절대 금지 행위</h3>
+        <div class="alert">
+          ⛔ 어르신 상태를 개인 SNS에 올리기 (사진·영상·텍스트 모두 금지)<br>
+          ⛔ 가족 단톡방에 다른 어르신 정보 공유<br>
+          ⛔ 퇴근 후 지인에게 어르신 이야기하기<br>
+          ⛔ 개인 휴대폰으로 어르신 사진 촬영<br>
+          ⛔ 비밀번호를 메모지에 적어두기<br>
+          ⛔ 인쇄물을 책상 위에 방치하기
+        </div>
+      </div>
+      <div class="card">
+        <h3>정보 처리 절차</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">수집 시</div><div class="step-desc">입소 상담 시 "개인정보 수집·이용 동의서" 받기 / 필요한 항목만 요청</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">이용 시</div><div class="step-desc">업무 목적으로만 열람 / 화면 이탈 시 잠금 (Win+L) / 인쇄물 즉시 수거 후 파쇄</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">보관 시</div><div class="step-desc">종이: 잠금 캐비닛 / 전자: 비밀번호 폴더 / USB 사용 금지</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">파기 시 (5년 경과)</div><div class="step-desc">종이: 파쇄기 완전 파쇄 / 전자: 영구 삭제</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>긴급 연락처</h3>
+        <div class="contacts">
+          <div class="contact-item"><div class="contact-name">시설장 최광진</div><div class="contact-num">☎ ___________</div><div class="contact-note">개인정보 책임자</div></div>
+          <div class="contact-item"><div class="contact-name">개인정보보호위원회</div><div class="contact-num">☎ 1833-6972</div><div class="contact-note">침해 신고</div></div>
+          <div class="contact-item"><div class="contact-name">경찰청 사이버안전국</div><div class="contact-num">☎ 182</div><div class="contact-note">유출 사고 신고</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div class="checklist-tabs">
+          <button class="tab-btn active" onclick="switchTab('s08','daily',this)">매일</button>
+          <button class="tab-btn" onclick="switchTab('s08','weekly',this)">주간</button>
+          <button class="tab-btn" onclick="switchTab('s08','monthly',this)">월간</button>
+        </div>
+        <div class="check-progress-text" id="prog-text-s08">0 / 3 완료</div>
+        <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s08" style="width:0%"></div></div>
+        <div class="checklist-content active" id="s08-daily">
+          <div class="check-item" onclick="toggleCheck(this,'s08')"><input type="checkbox"><label>퇴근 시 컴퓨터 전원 끄기</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s08')"><input type="checkbox"><label>인쇄물 책상 위 방치 여부 확인</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s08')"><input type="checkbox"><label>어르신 기록 작성 후 시스템 로그아웃</label></div>
+        </div>
+        <div class="checklist-content" id="s08-weekly">
+          <div class="check-item" onclick="toggleCheck(this,'s08')"><input type="checkbox"><label>비밀번호 타인 공유 여부 점검</label></div>
+        </div>
+        <div class="checklist-content" id="s08-monthly">
+          <div class="check-item" onclick="toggleCheck(this,'s08')"><input type="checkbox"><label>개인정보 취급 대장 갱신</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s08')"><input type="checkbox"><label>전 직원 개인정보 보호 교육 실시 (분기)</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s08')"><input type="checkbox"><label>5년 경과 문서 파기 목록 작성 (분기)</label></div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks('s08')">초기화</button>
+      </div>
+    </div>
+
+    <!-- 09 야간 근무 -->
+    <div class="section s09" id="s09">
+      <div class="section-header">
+        <h2>09. 야간 근무 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 모두가 잠든 야간(22시~익일 06시)에도 어르신의 안전을 지키고, 응급 상황에 즉각 대응합니다.</div>
+      </div>
+      <div class="card">
+        <h3>야간 순찰 항목 (2시간마다)</h3>
+        <h4>어르신 상태 확인</h4>
+        <ul class="principles">
+          <li>호흡 상태 정상 여부 (가슴 움직임 확인)</li>
+          <li>수면 자세 (기도 막힘 위험 없는지)</li>
+          <li>침구 착용 상태 (추위·더위 노출)</li>
+          <li>침대 난간 올림 상태 (낙상 방지)</li>
+          <li>어르신 위치 (침대 이탈 여부)</li>
+        </ul>
+        <h4>시설 안전 점검</h4>
+        <ul class="principles">
+          <li>출입문 잠금 상태</li>
+          <li>주방 가스밸브 잠금</li>
+          <li>전기 코드 과열 여부</li>
+          <li>CCTV 정상 작동</li>
+          <li>복도 조명 적정 밝기 유지</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>응급 상황별 초기 대응</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>상황</th><th>즉각 행동</th></tr>
+            <tr><td><strong>낙상 발견</strong></td><td>움직이지 말게 하기 → 의식·출혈 확인 → 즉시 보고</td></tr>
+            <tr><td><strong>호흡 곤란</strong></td><td>상체 45도 세우기 → 산소포화도 측정 → 119 준비</td></tr>
+            <tr><td><strong>구토</strong></td><td>고개 옆으로 돌리기 → 기도 막힘 방지 → 보고</td></tr>
+            <tr><td><strong>의식 저하</strong></td><td>평평하게 눕히기 → 기도 확보 → 119 신고</td></tr>
+            <tr><td><strong>화재 발견</strong></td><td>비상벨 누르기 → 어르신 대피 → 119 신고</td></tr>
+            <tr><td><strong>배회</strong></td><td>안전하게 동행 → 방으로 유도 → 낙상 주의</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>긴급 연락처</h3>
+        <div class="contacts">
+          <div class="contact-item"><div class="contact-name">시설장 최광진</div><div class="contact-num">☎ ___________</div><div class="contact-note">1차 연락 (24시간)</div></div>
+          <div class="contact-item"><div class="contact-name">간호사</div><div class="contact-num">☎ ___________</div><div class="contact-note">의료 판단 필요 시</div></div>
+          <div class="contact-item emergency"><div class="contact-name">119 구급대</div><div class="contact-num">☎ 119</div><div class="contact-note">응급 상황</div></div>
+          <div class="contact-item"><div class="contact-name">인근 병원 응급실</div><div class="contact-num">☎ ___________</div><div class="contact-note">이송 병원</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div class="checklist-tabs">
+          <button class="tab-btn active" onclick="switchTab('s09','start',this)">근무 시작 전 (18시)</button>
+          <button class="tab-btn" onclick="switchTab('s09','patrol',this)">순찰 시</button>
+          <button class="tab-btn" onclick="switchTab('s09','end',this)">근무 종료 전 (06시)</button>
+        </div>
+        <div class="check-progress-text" id="prog-text-s09">0 / 4 완료</div>
+        <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s09" style="width:0%"></div></div>
+        <div class="checklist-content active" id="s09-start">
+          <div class="check-item" onclick="toggleCheck(this,'s09')"><input type="checkbox"><label>취약 어르신 명단 확인 (와상·치매·낙상 위험)</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s09')"><input type="checkbox"><label>비상 연락망 숙지</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s09')"><input type="checkbox"><label>손전등 배터리 점검</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s09')"><input type="checkbox"><label>야간 근무 일지 준비</label></div>
+        </div>
+        <div class="checklist-content" id="s09-patrol">
+          <div class="check-item" onclick="toggleCheck(this,'s09')"><input type="checkbox"><label>어르신 호흡 상태 확인</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s09')"><input type="checkbox"><label>침대 난간 상태 확인</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s09')"><input type="checkbox"><label>출입문 잠금 확인</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s09')"><input type="checkbox"><label>특이사항 기록</label></div>
+        </div>
+        <div class="checklist-content" id="s09-end">
+          <div class="check-item" onclick="toggleCheck(this,'s09')"><input type="checkbox"><label>야간 일지 작성 완료</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s09')"><input type="checkbox"><label>주간 근무자에게 인계</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s09')"><input type="checkbox"><label>특이사항 보고</label></div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks('s09')">초기화</button>
+      </div>
+    </div>
+
+    <!-- 10 인권 침해 -->
+    <div class="section s10" id="s10">
+      <div class="section-header">
+        <h2>10. 인권 침해 대응 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 직원의 인권을 보호하고, 폭언·폭행·성희롱 등 침해 발생 시 즉각 대응하여 안전한 근무 환경을 유지합니다.</div>
+      </div>
+      <div class="card">
+        <h3>폭언·폭행 발생 시 직원 대응</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">행위 중지 요청 (즉시)</div><div class="step-desc">"그만하세요" 명확하게 / 감정적 대응 자제, 냉정함 유지</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">현장 회피 (1분 이내)</div><div class="step-desc">안전한 거리 확보 / 추가 피해 방지</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">주변 도움 요청 (즉시)</div><div class="step-desc">다른 직원 호출 / 상황 목격자 확보</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">시설장 보고 (10분 이내)</div><div class="step-desc">육하원칙으로 구체적 보고 / 가능하면 증거 확보 (녹취·사진)</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>긴급 연락처</h3>
+        <div class="contacts">
+          <div class="contact-item"><div class="contact-name">시설장 최광진</div><div class="contact-num">☎ ___________</div><div class="contact-note">1차 보고 (24시간)</div></div>
+          <div class="contact-item emergency"><div class="contact-name">경찰</div><div class="contact-num">☎ 112</div><div class="contact-note">폭행 발생 시 즉시</div></div>
+          <div class="contact-item"><div class="contact-name">고용노동부</div><div class="contact-num">☎ 1350</div><div class="contact-note">직장 내 괴롭힘 상담</div></div>
+          <div class="contact-item"><div class="contact-name">여성긴급전화</div><div class="contact-num">☎ 1366</div><div class="contact-note">성폭력 상담·지원</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div class="checklist-tabs">
+          <button class="tab-btn active" onclick="switchTab('s10','daily',this)">매일</button>
+          <button class="tab-btn" onclick="switchTab('s10','monthly',this)">월간</button>
+        </div>
+        <div class="check-progress-text" id="prog-text-s10">0 / 2 완료</div>
+        <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s10" style="width:0%"></div></div>
+        <div class="checklist-content active" id="s10-daily">
+          <div class="check-item" onclick="toggleCheck(this,'s10')"><input type="checkbox"><label>직원 간 존칭어 사용 여부 확인</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s10')"><input type="checkbox"><label>어르신·보호자와의 갈등 상황 관찰</label></div>
+        </div>
+        <div class="checklist-content" id="s10-monthly">
+          <div class="check-item" onclick="toggleCheck(this,'s10')"><input type="checkbox"><label>직원 고충 면담 실시</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s10')"><input type="checkbox"><label>인권 침해 예방 교육 (연 1회 이상)</label></div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks('s10')">초기화</button>
+      </div>
+    </div>
+
+    <!-- 11 고충 처리 -->
+    <div class="section s11" id="s11">
+      <div class="section-header">
+        <h2>11. 고충 처리 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 보호자와 직원의 고충을 신속하고 투명하게 처리하여, 신뢰 기반의 요양 환경을 조성합니다.</div>
+      </div>
+      <div class="card">
+        <h3>고충 처리 접수 창구</h3>
+        <div class="contacts">
+          <div class="contact-item"><div class="contact-name">시설장 직통 전화</div><div class="contact-num">☎ 010-6880-5001</div><div class="contact-note">전화·상담</div></div>
+          <div class="contact-item"><div class="contact-name">이메일</div><div class="contact-num" style="font-size:13px;">cbh9203@naver.com</div><div class="contact-note">서면 접수</div></div>
+          <div class="contact-item"><div class="contact-name">건의함</div><div class="contact-num" style="font-size:13px;">시설 내 설치</div><div class="contact-note">익명 접수 가능</div></div>
+          <div class="contact-item"><div class="contact-name">대면 상담</div><div class="contact-num" style="font-size:13px;">예약제</div><div class="contact-note">시설장 직접 상담</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>고충 처리 절차 5단계</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">접수 (즉시)</div><div class="step-desc">접수 즉시 확인 통보 (문자 또는 전화)</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">처리 (30일 이내)</div><div class="step-desc">30일 이내 검토·처리 / 긴급 사안은 24시간 이내 1차 답변</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">기록 (처리 완료 시)</div><div class="step-desc">"고충 처리 대장"에 접수·처리 내용 기록</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">통보 (처리 완료 즉시)</div><div class="step-desc">민원인에게 처리 결과 즉시 통보 / 시설장 보고</div></div></div>
+          <div class="step-arrow">↓</div>
+          <div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">완료 (결과 반영)</div><div class="step-desc">결과 반영·조치 완료 확인 / 재발 방지 대책 수립</div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div class="checklist-tabs">
+          <button class="tab-btn active" onclick="switchTab('s11','weekly',this)">매주</button>
+          <button class="tab-btn" onclick="switchTab('s11','monthly',this)">월간</button>
+        </div>
+        <div class="check-progress-text" id="prog-text-s11">0 / 2 완료</div>
+        <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s11" style="width:0%"></div></div>
+        <div class="checklist-content active" id="s11-weekly">
+          <div class="check-item" onclick="toggleCheck(this,'s11')"><input type="checkbox"><label>건의함 확인 및 내용 검토</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s11')"><input type="checkbox"><label>미처리 고충 현황 점검</label></div>
+        </div>
+        <div class="checklist-content" id="s11-monthly">
+          <div class="check-item" onclick="toggleCheck(this,'s11')"><input type="checkbox"><label>고충 처리 대장 갱신</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s11')"><input type="checkbox"><label>직원·보호자 만족도 조사</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s11')"><input type="checkbox"><label>고충 처리 회의 개최 (재발 방지 대책 논의)</label></div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks('s11')">초기화</button>
+      </div>
+    </div>
+
+    <!-- 12 종사자 윤리 -->
+    <div class="section s12" id="s12">
+      <div class="section-header">
+        <h2>12. 종사자 윤리 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 종사자가 전문가로서 품위와 윤리를 유지하고, 어르신께 일관된 존중과 케어를 제공합니다.</div>
+      </div>
+      <div class="card">
+        <h3>종사자의 기본 윤리</h3>
+        <ul class="principles">
+          <li><strong>전문가 정신:</strong> 품위와 자질 유지, 업무에 자부심과 책임감</li>
+          <li><strong>법규 준수:</strong> 법령·규정 준수, 양심에 어긋나지 않는 행동</li>
+          <li><strong>성실과 공정:</strong> 성실하고 공정한 업무 수행, 부당한 압력에 타협 금지</li>
+          <li><strong>권위 남용 금지:</strong> 자신의 이익 위해 전문가 권위 이용 금지</li>
+          <li><strong>차별 금지:</strong> 지연·혈연·학연·종교 등 이유로 특혜·차별 금지</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>노인 권리 보호 4원칙</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>원칙</th><th>내용</th></tr>
+            <tr><td><strong>의사 존중</strong></td><td>시설 입소 시 노인이 스스로 결정 / 노인의 의사를 존중</td></tr>
+            <tr><td><strong>정보 보호</strong></td><td>업무 과정에서 알게 된 개인정보는 사전 동의 없이 공개 금지</td></tr>
+            <tr><td><strong>자유 보장</strong></td><td>면회·외출·외박 기회 거부·제한 금지</td></tr>
+            <tr><td><strong>고충 처리</strong></td><td>노인의 불평·고충 자유롭게 표현 가능 / 해결 조치 의무</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>윤리 위반 시 조치</h3>
+        <ul class="principles">
+          <li><strong>경미한 위반:</strong> 경고 및 재교육</li>
+          <li><strong>중대한 위반:</strong> 징계위원회 회부</li>
+          <li><strong>법 위반 행위:</strong> 관계 기관 신고</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div class="checklist-tabs">
+          <button class="tab-btn active" onclick="switchTab('s12','daily',this)">매일</button>
+          <button class="tab-btn" onclick="switchTab('s12','monthly',this)">월간</button>
+        </div>
+        <div class="check-progress-text" id="prog-text-s12">0 / 2 완료</div>
+        <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s12" style="width:0%"></div></div>
+        <div class="checklist-content active" id="s12-daily">
+          <div class="check-item" onclick="toggleCheck(this,'s12')"><input type="checkbox"><label>어르신께 존칭어 사용 여부 자가 점검</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s12')"><input type="checkbox"><label>개인정보 보호 수칙 준수 확인</label></div>
+        </div>
+        <div class="checklist-content" id="s12-monthly">
+          <div class="check-item" onclick="toggleCheck(this,'s12')"><input type="checkbox"><label>직원 윤리 교육 참여 (연 2회 이상)</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s12')"><input type="checkbox"><label>윤리 강령 숙지 테스트</label></div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks('s12')">초기화</button>
+      </div>
+    </div>
+
+    <!-- 13 근골격계 -->
+    <div class="section s13" id="s13">
+      <div class="section-header">
+        <h2>13. 근골격계 질환 예방 지침</h2>
+        <div class="purpose">🎯 <strong>목적:</strong> 직원의 근골격계 질환을 예방하고, 건강한 신체로 안전하게 어르신을 모실 수 있도록 합니다.</div>
+      </div>
+      <div class="card">
+        <h3>질환의 진행 단계</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>단계</th><th>특징</th><th>조치</th></tr>
+            <tr><td><strong style="color:#38a169">1단계</strong></td><td>작업 중 통증·피로 → 하룻밤 지나면 없음</td><td>예방 단계</td></tr>
+            <tr><td><strong style="color:#d69e2e">2단계</strong></td><td>초기부터 통증, 하룻밤 지나도 지속, 불면증</td><td>의학적 치료 필요</td></tr>
+            <tr><td><strong style="color:#e53e3e">3단계</strong></td><td>휴식 시에도 종일 통증, 작업 수행 불가능</td><td>의학적 관리 필요</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>올바른 작업 자세 (예방 수칙)</h3>
+        <ul class="principles">
+          <li>물건 들거나 내릴 때 허리 굽히거나 비틀지 않기</li>
+          <li>물건 운반 시 이동 대차 사용</li>
+          <li>작업 높이는 팔꿈치 높이로 조정</li>
+          <li>어르신 부축 시 2인 협력 (1인 무리 절대 금지)</li>
+          <li>통증 느낄 때 참지 말고 즉시 휴식 + 시설장 보고</li>
+          <li><strong>업무 전·후 스트레칭 5분 필수</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>긴급 연락처</h3>
+        <div class="contacts">
+          <div class="contact-item"><div class="contact-name">시설장 최광진</div><div class="contact-num">☎ ___________</div><div class="contact-note">통증 발생 즉시 보고</div></div>
+          <div class="contact-item"><div class="contact-name">협력 병원</div><div class="contact-num">☎ ___________</div><div class="contact-note">진료 연계</div></div>
+          <div class="contact-item"><div class="contact-name">근로복지공단</div><div class="contact-num">☎ 1588-0075</div><div class="contact-note">산재 상담</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>✅ 현장 체크리스트</h3>
+        <div class="checklist-tabs">
+          <button class="tab-btn active" onclick="switchTab('s13','daily',this)">매일</button>
+          <button class="tab-btn" onclick="switchTab('s13','weekly',this)">주간</button>
+          <button class="tab-btn" onclick="switchTab('s13','monthly',this)">월간</button>
+        </div>
+        <div class="check-progress-text" id="prog-text-s13">0 / 3 완료</div>
+        <div class="check-progress"><div class="check-progress-bar" id="prog-bar-s13" style="width:0%"></div></div>
+        <div class="checklist-content active" id="s13-daily">
+          <div class="check-item" onclick="toggleCheck(this,'s13')"><input type="checkbox"><label>출근 시 스트레칭 5분 실시</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s13')"><input type="checkbox"><label>작업 중 통증 여부 자가 점검</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s13')"><input type="checkbox"><label>퇴근 전 스트레칭 5분 실시</label></div>
+        </div>
+        <div class="checklist-content" id="s13-weekly">
+          <div class="check-item" onclick="toggleCheck(this,'s13')"><input type="checkbox"><label>직원 통증 부위 조사</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s13')"><input type="checkbox"><label>올바른 작업 자세 상호 점검</label></div>
+        </div>
+        <div class="checklist-content" id="s13-monthly">
+          <div class="check-item" onclick="toggleCheck(this,'s13')"><input type="checkbox"><label>근골격계 질환 예방 교육 실시</label></div>
+          <div class="check-item" onclick="toggleCheck(this,'s13')"><input type="checkbox"><label>스트레칭 동작 교육 (전문 강사)</label></div>
+        </div>
+        <button class="reset-btn" onclick="resetChecks('s13')">초기화</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  function showSection(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    // 모바일: 사이드바 닫기
+    if (window.innerWidth <= 768) toggleSidebar();
+    window.scrollTo(0, 0);
+  }
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+  }
+
+  function switchTab(section, tabId, btn) {
+    const container = btn.closest('.card');
+    container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    container.querySelectorAll('.checklist-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    const target = document.getElementById(section + '-' + tabId);
+    if (target) target.classList.add('active');
+  }
+
+  function toggleCheck(item, sectionId) {
+    const cb = item.querySelector('input[type="checkbox"]');
+    if (event.target !== cb) cb.checked = !cb.checked;
+    if (cb.checked) item.classList.add('checked');
+    else item.classList.remove('checked');
+    updateProgress(sectionId);
+  }
+
+  function updateProgress(sectionId) {
+    const section = document.getElementById(sectionId);
+    const all = section.querySelectorAll('.check-item input[type="checkbox"]');
+    const checked = section.querySelectorAll('.check-item input[type="checkbox"]:checked');
+    const total = all.length;
+    const done = checked.length;
+    const pct = total > 0 ? Math.round(done / total * 100) : 0;
+    const activeContent = section.querySelector('.checklist-content.active');
+    const activeItems = activeContent ? activeContent.querySelectorAll('.check-item input') : [];
+    const activeDone = activeContent ? activeContent.querySelectorAll('.check-item input:checked') : [];
+    const activeTotal = activeItems.length;
+    const activeDoneCount = activeDone.length;
+
+    document.getElementById('prog-text-' + sectionId).textContent = activeDoneCount + ' / ' + activeTotal + ' 완료';
+    document.getElementById('prog-bar-' + sectionId).style.width = (activeTotal > 0 ? Math.round(activeDoneCount / activeTotal * 100) : 0) + '%';
+  }
+
+  function resetChecks(sectionId) {
+    const section = document.getElementById(sectionId);
+    section.querySelectorAll('.check-item').forEach(item => {
+      item.querySelector('input').checked = false;
+      item.classList.remove('checked');
+    });
+    updateProgress(sectionId);
+  }
+
+  // 탭 전환 시 진행률 업데이트
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const card = this.closest('.card');
+      const section = card.closest('.section');
+      if (section) updateProgress(section.id);
+    });
+  });
+</script>
+</body>
+</html>
